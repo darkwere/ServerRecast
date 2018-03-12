@@ -17,7 +17,7 @@
   "Modules": [
     {
       "Name": "ServerRecast",
-      "Type": "Runtime",
+      "Type": "Editor",
       "LoadingPhase": "Default"
     }
   ]
