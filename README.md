@@ -11,7 +11,8 @@ Usage:
 6. Put Navmesh Bounds Volume into the level.
 7. Resize Navmesh Bounds Volume to fill all the necessary space in the level. You can check it by pressing 'P' key.
 8. Press ServerRecast button in the top panel of Unreal Engine (it will appear there if you install the plugin successfully).
-9. RecastDemo program will show up with your level in it.
-10. Press Build button.
-11. Press Save after Build is finished.
-12. all_tiles_navmesh.bin is your Navmesh file, now you can use it.
+9. RecastDemo program will show up.
+10. Select the type of sample mesh (solo mesh or tile mesh).
+11. Press Build button.
+12. Press Save after Build is finished.
+13. all_tiles_navmesh.bin is your Navmesh file, now you can use it.
