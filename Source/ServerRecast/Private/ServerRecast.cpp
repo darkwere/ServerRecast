@@ -84,24 +84,25 @@ void FServerRecastModule::PluginButtonClicked()
 			NavSys->GetAbstractNavData();
 			if (ANavigationData* NavData = NavSys->GetMainNavData(FNavigationSystem::ECreateIfEmpty::Create))
 			{
-				const FString Name = World->GetMapName();// "UE_ExportingLevel";//NavData->GetName();
-				const FString Path = FPaths::GamePluginsDir() + "/ServerRecast/recastnavigation/RecastDemo/Bin/Meshes";
+				const FString Name =  World->GetMapName() ;// "UE_ExportingLevel";//NavData->GetName();
+				const FString Path =  FPaths::ProjectPluginsDir() + "/ServerRecast/recastnavigation/RecastDemo/Bin/Meshes";
 
 				FExportNavMesh* NewRecast = static_cast<FExportNavMesh*>(NavData->GetGenerator());
 				
 				// Export Landscape
 				NewRecast->MyExportNavigationData(FString::Printf(TEXT("%s/%s"), *Path, *Name));
 
-				// Create PathToExecutable
-				FString PathToExecutable = FPaths::GamePluginsDir() + TEXT("ServerRecast/recastnavigation/RecastDemo/Bin/ RecastDemo.exe");  
+				// Create PathToExecutable. Adding "..." 
+				FString PathToExecutable = "\"" + FPaths::ProjectPluginsDir() + TEXT("ServerRecast/recastnavigation/RecastDemo/Bin/\" RecastDemo.exe");
 				PathToExecutable = PathToExecutable.Replace(TEXT("/"), TEXT("\\"), ESearchCase::IgnoreCase);
 
 				// Create SaveNavmeshPath
-				FString SaveNavmeshPath = FPaths::GameDir();
-				SaveNavmeshPath.RemoveFromEnd(FApp::GetGameName() + FString("/"));
+				FString SaveNavmeshPath = FPaths::ProjectDir();
+				//SaveNavmeshPath.RemoveFromEnd(FApp::GetProjectName() + FString("/"));
 				SaveNavmeshPath = SaveNavmeshPath.Replace(TEXT("/"), TEXT("\\"), ESearchCase::IgnoreCase);
 
-				FString EndCommand = TEXT("cmd /c start /D ") + PathToExecutable + TEXT(" 1 ") + Name + TEXT(".obj ") + Name + TEXT(".navmesh ") + SaveNavmeshPath + TEXT("Navmeshes\\");
+				// Create PathToExecutable. SaveNavmeshPath haven't "...". It already adding to Sample_TileMesh 
+				FString EndCommand = TEXT("cmd /c start /D ") + PathToExecutable + TEXT(" 1 ") + Name + TEXT(".obj ") + Name + TEXT(".navmesh ") + "\"" + SaveNavmeshPath + TEXT("Navmeshes\\") ;
 
 				UE_LOG(LogTemp, Log, TEXT(" %s "), *EndCommand);
 				system(TCHAR_TO_ANSI(*EndCommand));
