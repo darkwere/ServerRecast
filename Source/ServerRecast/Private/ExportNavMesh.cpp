@@ -1,10 +1,12 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 #include "ExportNavMesh.h"
 #include "ServerRecast.h"
-#include "AI/Navigation/RecastHelpers.h"
+#include "Navmesh/RecastHelpers.h"
 #include "Runtime/Core/Public/GenericPlatform/GenericPlatform.h"
 #include "Runtime/Navmesh/Public/Detour/DetourNavMesh.h"
 #include "Runtime/Engine/Classes/Kismet/KismetMathLibrary.h"
+#include "NavigationSystem.h"
+#include "RecastNavMeshGenerator.h"
 
 
 FServerRecastGeometryCache::FServerRecastGeometryCache(const uint8* Memory)
@@ -16,7 +18,7 @@ FServerRecastGeometryCache::FServerRecastGeometryCache(const uint8* Memory)
 
 void FExportNavMesh::MyExportNavigationData(const FString& FileName)
 {
-	const UNavigationSystem* NavSys = UNavigationSystem::GetCurrent(GetWorld());
+	const UNavigationSystemV1* NavSys = FNavigationSystem::GetCurrent<UNavigationSystemV1>(GetWorld());
 	const FNavigationOctree* NavOctree = NavSys ? NavSys->GetNavOctree() : NULL;
 	if (NavOctree == NULL)
 	{

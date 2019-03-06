@@ -10,7 +10,6 @@ public class ServerRecast : ModuleRules
 		
 		PublicIncludePaths.AddRange(
 			new string[] {
-				"ServerRecast/Public"
 				// ... add public include paths required here ...
 			}
 			);
@@ -24,6 +23,7 @@ public class ServerRecast : ModuleRules
                 "HeadMountedDisplay",
                 "UMG",
                 "Navmesh",
+                "NavigationSystem",
                 "PhysX",
                 "APEX"
             }
@@ -31,7 +31,8 @@ public class ServerRecast : ModuleRules
 
         PrivateIncludePaths.AddRange(
 			new string[] {
-				"ServerRecast/Private",
+                "ServerRecast/Public",
+                "ServerRecast/Private",
 				// ... add other private include paths required here ...
 			}
 			);
@@ -48,6 +49,7 @@ public class ServerRecast : ModuleRules
 				"Engine",
 				"Slate",
 				"SlateCore",
+                "NavigationSystem"
 				// ... add private dependencies that you statically link with here ...	
 			}
 			);

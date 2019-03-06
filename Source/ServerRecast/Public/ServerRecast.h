@@ -6,6 +6,12 @@
 #include "EngineMinimal.h"
 #include "ModuleManager.h"
 
+#include "AllowWindowsPlatformTypes.h"
+
+//The external headers and defines goes here
+
+#include "HideWindowsPlatformTypes.h"
+
 class FToolBarBuilder;
 class FMenuBuilder;
 

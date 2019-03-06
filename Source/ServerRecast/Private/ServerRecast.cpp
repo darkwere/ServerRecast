@@ -7,14 +7,15 @@
 #include "Framework/MultiBox/MultiBoxBuilder.h"
 
 // Nav Data
-#include "Runtime/Engine/Classes/AI/Navigation/NavigationData.h"
+#include "NavigationData.h"
 #include "ExportNavMesh.h"
 
 //Test
 #include "Runtime/Navmesh/Public/Detour/DetourNavMesh.h"
-#include "AI/Navigation/PImplRecastNavMesh.h"
-#include "Runtime/Engine/Classes/AI/Navigation/RecastNavMesh.h"
+#include "Navmesh/PImplRecastNavMesh.h"
+#include "Navmesh/RecastNavMesh.h"
 #include "Runtime/Navmesh/Public/Detour/DetourNavMeshBuilder.h"
+#include "NavigationSystem.h"
 
 // Editor
 #include "Editor/UnrealEd/Public/Editor.h"
@@ -79,10 +80,10 @@ void FServerRecastModule::PluginButtonClicked()
 	if (UWorld* World = GEditor->GetEditorWorldContext().World())
 	{
 		// Create mesh
-		if (UNavigationSystem* NavSys = World->GetNavigationSystem())
+		if (UNavigationSystemV1* NavSys = Cast<UNavigationSystemV1>(World->GetNavigationSystem()))
 		{
 			NavSys->GetAbstractNavData();
-			if (ANavigationData* NavData = NavSys->GetMainNavData(FNavigationSystem::ECreateIfEmpty::Create))
+			if (ANavigationData* NavData = NavSys->GetDefaultNavDataInstance(FNavigationSystem::ECreateIfEmpty::Create))
 			{
 				const FString Name =  World->GetMapName() ;// "UE_ExportingLevel";//NavData->GetName();
 				const FString Path =  FPaths::ProjectPluginsDir() + "/ServerRecast/recastnavigation/RecastDemo/Bin/Meshes";

@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "ModuleManager.h"
-#include "Runtime/Engine/Public/AI/Navigation/RecastNavMeshGenerator.h"
+#include "Navmesh/RecastNavMeshGenerator.h"
 //#include "ExportNavMesh.generated.h"
 /**
 *
@@ -12,11 +12,16 @@
 
 struct FServerRecastGeometryCache
 {
+
 	struct FHeader
 	{
+		FNavigationRelevantData::FCollisionDataHeader Validation;
+
 		int32 NumVerts;
 		int32 NumFaces;
 		struct FWalkableSlopeOverride SlopeOverride;
+
+		static uint32 StaticMagicNumber;
 	};
 
 	FHeader Header;
@@ -29,6 +34,8 @@ struct FServerRecastGeometryCache
 
 	FServerRecastGeometryCache() {}
 	FServerRecastGeometryCache(const uint8* Memory);
+
+	static bool IsValid(const uint8* Memory, int32 MemorySize);
 };
 
 class SERVERRECAST_API FExportNavMesh : public FRecastNavMeshGenerator
