@@ -6,7 +6,7 @@
 #include "Runtime/Navmesh/Public/Detour/DetourNavMesh.h"
 #include "Runtime/Engine/Classes/Kismet/KismetMathLibrary.h"
 #include "NavigationSystem.h"
-#include "RecastNavMeshGenerator.h"
+#include "NavMesh/RecastNavMeshGenerator.h"
 
 
 FServerRecastGeometryCache::FServerRecastGeometryCache(const uint8* Memory)
@@ -44,11 +44,8 @@ void FExportNavMesh::MyExportNavigationData(const FString& FileName)
 			};
 			TArray<FAreaExportData> AreaExport;
 
-			for (FNavigationOctree::TConstElementBoxIterator<FNavigationOctree::DefaultStackAllocator> It(*NavOctree, GetTotalBounds());
-				It.HasPendingElements();
-				It.Advance())
+			NavOctree->FindElementsWithBoundsTest(GetTotalBounds(), [&](const FNavigationOctreeElement& Element) 
 			{
-				const FNavigationOctreeElement& Element = It.GetCurrentElement();
 				const bool bExportGeometry = Element.Data->HasGeometry() && Element.ShouldUseGeometry(GetOwner()->GetConfig());
 
 				if (bExportGeometry && Element.Data->CollisionData.Num())
@@ -101,7 +98,8 @@ void FExportNavMesh::MyExportNavigationData(const FString& FileName)
 						}
 					}
 				}
-			}
+				
+			});
 
 			// I don't now what doing this part
 			UWorld* NavigationWorld = GetWorld();
